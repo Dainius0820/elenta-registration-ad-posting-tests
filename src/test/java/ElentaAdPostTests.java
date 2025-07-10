@@ -14,10 +14,9 @@ import java.time.Duration;
 public class ElentaAdPostTests {
 
     public static WebDriver driver;
-
     public static WebDriverWait wait;
 
-    public static String generateRndLetters(int length) {
+    public String generateRndLetters(int length) {
         String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         String text = "";
         for (int i = 0; i < length; i++) {
@@ -26,7 +25,7 @@ public class ElentaAdPostTests {
         return text;
     }
 
-    public static String generateRndNumbs(int length) {
+    public String generateRndNumbs(int length) {
         String symbols = "0123456789";
         String text = "";
         for (int i = 0; i < length; i++) {
@@ -35,7 +34,7 @@ public class ElentaAdPostTests {
         return text;
     }
 
-    public static String generateRndSpecialChars(int length) {
+    public String generateRndSpecialChars(int length) {
         String symbols = "\"#$%&'()*:;<=>?[\\]^_`{|}~";
         String text = "";
         for (int i = 0; i < length; i++) {
@@ -71,7 +70,7 @@ public class ElentaAdPostTests {
         driver.findElement(By.id("submit-button")).click();
     }
 
-    public static void uploadImages(WebDriver driver, String... imageNames) {
+    public void uploadImages(WebDriver driver, String... imageNames) {
         StringBuilder filePaths = new StringBuilder();
         for (int i = 0; i < imageNames.length; i++) {
             File imageFile = new File("src/test/resources/images/" + imageNames[i]);
@@ -85,8 +84,8 @@ public class ElentaAdPostTests {
         fileInput.sendKeys(filePaths.toString());
 
         try {
-            WebElement progress = driver.findElement(By.id("fileupload-progress"));
-            wait.until(ExpectedConditions.attributeToBe(progress, "value", progress.getDomAttribute("max")));
+            WebElement progressBar = driver.findElement(By.id("fileupload-progress"));
+            wait.until(ExpectedConditions.attributeToBe(progressBar, "value", progressBar.getDomAttribute("max")));
         } catch (Exception e) {
             try {
                 wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("fileupload-progress")));
@@ -94,13 +93,21 @@ public class ElentaAdPostTests {
         }
     }
 
-    public static void removeImages(int numbOfImages) {
+    public void removeImages(int numbOfImages) {
         for (int i = 1; i <= numbOfImages; i++) {
             By removeLocator = By.id("remove-photo-" + i);
             WebElement removeBtn = wait.until(ExpectedConditions.elementToBeClickable(removeLocator));
             removeBtn.click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(removeLocator));
         }
+    }
+
+    public void completeAdAndDelete() {
+        driver.findElement(By.id("forward-button")).click();
+        driver.findElement(By.id("forward-button")).click();
+        driver.findElement(By.cssSelector(".action")).click();
+        driver.findElement(By.className("delete")).click();
+        driver.switchTo().alert().accept();
     }
 
     @BeforeClass
@@ -164,7 +171,7 @@ public class ElentaAdPostTests {
     }
 
     @Test
-    public void noPhoneNumb() {
+    public void noPhoneNumbTest() {
         fillAdForm("Audi RS3", "Selling this beauty, because my neighbors can’t handle the noise", "25000",
                 "Vilnius", "", "standard@gmail.com");
         WebElement error = driver.findElement(By.id("ce"));
@@ -188,7 +195,7 @@ public class ElentaAdPostTests {
     }
 
     @Test
-    public void title3Chars() {
+    public void title3CharsTest() {
         fillAdForm("" + generateRndLetters(3), "Selling this beauty, because my neighbors can’t handle the noise", "25000",
                 "Vilnius", "+37061111111", "standard@gmail.com");
         String actual = driver.findElement(By.xpath("//*[@id=\"fileinput-label\"]/span")).getText();
@@ -196,7 +203,7 @@ public class ElentaAdPostTests {
     }
 
     @Test
-    public void title150Chars() {
+    public void title150CharsTest() {
         fillAdForm("" + generateRndLetters(150), "Selling this beauty, because my neighbors can’t handle the noise", "25000",
                 "Vilnius", "+37061111111", "standard@gmail.com");
         String actual = driver.findElement(By.xpath("//*[@id=\"fileinput-label\"]/span")).getText();
@@ -204,7 +211,7 @@ public class ElentaAdPostTests {
     }
 
     @Test
-    public void title151Chars() {
+    public void title151CharsTest() {
         fillAdForm("" + generateRndLetters(151), "Selling this beauty, because my neighbors can’t handle the noise", "25000",
                 "Vilnius", "+37061111111", "standard@gmail.com");
         WebElement error = driver.findElement(By.id("te"));
@@ -682,11 +689,7 @@ public class ElentaAdPostTests {
         }catch (Exception e){
             Assert.fail();
         }
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -695,11 +698,7 @@ public class ElentaAdPostTests {
         uploadImages(driver, "audi_rs3.pdf");
         WebElement error = driver.findElement(By.id("fileupload-message"));
         Assert.assertTrue(error.isDisplayed(), "Expected the \"Netinkamas nuotraukos formatas\" error to be shown");
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -708,11 +707,7 @@ public class ElentaAdPostTests {
         uploadImages(driver, "audi_rs3.tiff");
         WebElement error = driver.findElement(By.id("fileupload-message"));
         Assert.assertTrue(error.isDisplayed(), "Expected the \"Netinkamas nuotraukos formatas\" error to be shown");
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -725,11 +720,7 @@ public class ElentaAdPostTests {
         }catch (Exception e){
             Assert.fail();
         }
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -742,11 +733,7 @@ public class ElentaAdPostTests {
         }catch (Exception e){
             Assert.fail();
         }
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -759,11 +746,7 @@ public class ElentaAdPostTests {
         }catch (Exception e){
             Assert.fail();
         }
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -772,11 +755,7 @@ public class ElentaAdPostTests {
         uploadImages(driver, "audi_rs3.mp4");
         WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fileupload-message")));
         Assert.assertTrue(error.isDisplayed(), "Expected the \"Netinkamas nuotraukos formatas\" error to be shown");
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -785,11 +764,7 @@ public class ElentaAdPostTests {
         uploadImages(driver, "audi_rs3.docx");
         WebElement error = driver.findElement(By.id("fileupload-message"));
         Assert.assertTrue(error.isDisplayed(), "Expected the \"Netinkamas nuotraukos formatas\" error to be shown");
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -816,11 +791,7 @@ public class ElentaAdPostTests {
         }catch (Exception e){
             Assert.fail();
         }
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -829,11 +800,7 @@ public class ElentaAdPostTests {
         uploadImages(driver, "audi_rs3_6mb.jpg");
         WebElement error = driver.findElement(By.id("fileupload-message"));
         Assert.assertTrue(error.isDisplayed(), "Expected the \"Netinkamas nuotraukos dydis\" error to be shown");
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -847,11 +814,7 @@ public class ElentaAdPostTests {
         }catch (Exception e){
             Assert.fail();
         }
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -861,11 +824,7 @@ public class ElentaAdPostTests {
                 "audi_rs3.bmp", "audi_rs3_1mb.jpg", "audi_rs3_2mb.jpg", "audi_rs3_3mb.jpg","audi_rs3_4mb.jpg");
         WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fileupload-message")));
         Assert.assertTrue(error.isDisplayed(), "Expected the \"Negalima įkelti daugiau nei 8 nuotraukas\" error to be shown");
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 
     @Test
@@ -874,10 +833,6 @@ public class ElentaAdPostTests {
         uploadImages(driver, "audi_rs3.jpg", "audi_rs3.jpg");
         WebElement error = driver.findElement(By.id("fileupload-message"));
         Assert.assertTrue(error.isDisplayed(), "Expected the \"Negalima įkelti daugiau nei 1 tos pačios nuotraukos kopiją\" error to be shown");
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.id("forward-button")).click();
-        driver.findElement(By.cssSelector(".action")).click();
-        driver.findElement(By.className("delete")).click();
-        driver.switchTo().alert().accept();
+        completeAdAndDelete();
     }
 }

@@ -11,7 +11,6 @@ import java.time.Duration;
 public class ElentaRegTests {
 
     public static WebDriver driver;
-
     public static String pass64Chars = generateRndLetters(32).toLowerCase() + generateRndNumbs(32);
     public static String pass65Chars = generateRndLetters(32).toLowerCase() + generateRndNumbs(33);
     public static String specialChar = generateRndSpecialChars(1);
