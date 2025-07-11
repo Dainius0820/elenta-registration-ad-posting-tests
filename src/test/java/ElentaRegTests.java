@@ -22,7 +22,7 @@ public class ElentaRegTests {
         String symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String text = "";
         for (int i = 0; i < length; i++) {
-            text += symbols.charAt((int) (Math.random()*symbols.length()));
+            text += symbols.charAt((int) (Math.random() * symbols.length()));
         }
         return text;
     }
@@ -31,7 +31,7 @@ public class ElentaRegTests {
         String symbols = "0123456789";
         String text = "";
         for (int i = 0; i < length; i++) {
-            text += symbols.charAt((int) (Math.random()*symbols.length()));
+            text += symbols.charAt((int) (Math.random() * symbols.length()));
         }
         return text;
     }
@@ -40,7 +40,7 @@ public class ElentaRegTests {
         String symbols = "!\"#$%&'()*+,-.:;<=>?[\\]^_`{|}~";
         String text = "";
         for (int i = 0; i < length; i++) {
-            text += symbols.charAt((int) (Math.random()*symbols.length()));
+            text += symbols.charAt((int) (Math.random() * symbols.length()));
         }
         return text;
     }
@@ -52,7 +52,7 @@ public class ElentaRegTests {
         acceptBtn.click();
     }
 
-    public void fillRegForm(String userName, String email, String password, String password2){
+    public void fillRegForm(String userName, String email, String password, String password2) {
         driver.findElement(By.id("UserName")).sendKeys(userName);
         driver.findElement(By.id("Email")).sendKeys(email);
         driver.findElement(By.id("Password")).sendKeys(password);
@@ -79,438 +79,500 @@ public class ElentaRegTests {
 
     @Test
     public void positiveRegistrationFormTest() {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.xpath("//*[@id=\"main-container\"]/div[2]/h1/b")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Jūs sėkmingai prisiregistravote!");
     }
 
     @Test
     public void noUsernameTest() {
-        fillRegForm("", "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
+        fillRegForm("", "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Įveskite vartotojo vardą.");
     }
 
     @Test
-    public void noEmailTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)), "", "secret1", "secret1");
+    public void noEmailTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)), "", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Įveskite el. pašto adresą.");
     }
 
     @Test
-    public void noPasswordTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)), "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "", "secret1");
+    public void noPasswordTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)), "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Įveskite slaptažodį.");
     }
 
     @Test
-    public void noPassword2Test () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)), "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "");
+    public void noPassword2Test() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)), "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Pakartotinai neįvedėte slaptažodžio.");
     }
 
     @Test
-    public void username2CharsTest () {
+    public void username2CharsTest() {
         fillRegForm("" + generateRndLetters(2).toLowerCase(),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Per trumpas vartotojo vardas");
     }
 
     @Test
-    public void username3CharsTest () {
-        fillRegForm("" + generateRndLetters(3).toLowerCase(), "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
+    public void username3CharsTest() {
+        fillRegForm("" + generateRndLetters(3).toLowerCase(), "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.xpath("//*[@id=\"main-container\"]/div[2]/h1/b")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Jūs sėkmingai prisiregistravote!");
     }
 
     @Test
-    public void username64CharsTest () {
+    public void username64CharsTest() {
         fillRegForm("" + generateRndLetters(32).toLowerCase() + generateRndNumbs(32),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.xpath("//*[@id=\"main-container\"]/div[2]/h1/b")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Jūs sėkmingai prisiregistravote!");
     }
 
     @Test
-    public void username65CharsTest () {
+    public void username65CharsTest() {
         fillRegForm("" + generateRndLetters(32).toLowerCase() + generateRndNumbs(33),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Per ilgas vartotojo vardas");
     }
 
     @Test
-    public void usernameUpperCaseLetterTest () {
-        fillRegForm(generateRndLetters(1) + "tandard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
+    public void usernameUpperCaseLetterTest() {
+        fillRegForm(generateRndLetters(1) + "tandard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Vartotojo varde negali būti didžiųjų raidžių");
     }
 
     @Test
-    public void usernameContainsSpecialCharTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)) + generateRndSpecialChars(1),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
+    public void usernameContainsSpecialCharTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)) + generateRndSpecialChars(1),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Vartotojo varde negali būti specialiųjų simbolių");
     }
 
     @Test
-    public void usernameContainsSpaceTest () {
-        fillRegForm("stan" + " dard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
+    public void usernameContainsSpaceTest() {
+        fillRegForm("stan" + " dard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Vartotojo varde negali būti tarpų");
     }
 
     @Test
-    public void password5CharsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secr1", "secr1");
+    public void existingUsernameTest() {
+        fillRegForm("standard",
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
+        Assert.assertEquals(actual, "Vartotojas tokiu vardu jau įregistruotas. Bandykite pasirinkti kitą.");
+    }
+
+    @Test
+    public void password5CharsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secr1", "secr1");
+        String actual = "";
+        try {
+            actual = driver.findElement(By.className("field-validation-error")).getText();
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Įvestas slaptažodis per trumpas.");
     }
 
     @Test
-    public void password6CharsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secre1", "secre1");
+    public void password6CharsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secre1", "secre1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.xpath("//*[@id=\"main-container\"]/div[2]/h1/b")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Jūs sėkmingai prisiregistravote!");
     }
 
     @Test
-    public void password64CharsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", pass64Chars, pass64Chars);
+    public void password64CharsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", pass64Chars, pass64Chars);
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.xpath("//*[@id=\"main-container\"]/div[2]/h1/b")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Jūs sėkmingai prisiregistravote!");
     }
 
     @Test
-    public void password65CharsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", pass65Chars, pass65Chars);
+    public void password65CharsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", pass65Chars, pass65Chars);
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Įvestas slaptažodis per ilgas.");
     }
 
     @Test
-    public void passwordContainsSpecialCharTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "secret1" + specialChar, "secret1" + specialChar);
+    public void passwordContainsSpecialCharTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "secret1" + specialChar, "secret1" + specialChar);
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Slaptažodyje negali būti specialiųjų simbolių.");
     }
 
     @Test
-    public void passwordContainsSpaceTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", "sec" + " ret1", "sec" + " ret1");
+    public void passwordContainsSpaceTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", "sec" + " ret1", "sec" + " ret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Slaptažodyje negali būti tarpų.");
     }
 
     @Test
-    public void passwordLettersOnlyTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", passLettersOnly, passLettersOnly);
+    public void passwordLettersOnlyTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", passLettersOnly, passLettersOnly);
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Slaptažodį turi sudaryti raidės (a-z) ir skaičiai (0-9).");
     }
 
     @Test
-    public void passwordNumbsOnlyTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", passNumbsOnly, passNumbsOnly);
+    public void passwordNumbsOnlyTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", passNumbsOnly, passNumbsOnly);
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Slaptažodį turi sudaryti raidės (a-z) ir skaičiai (0-9).");
     }
 
     @Test
-    public void passContainsUpperCaseLetterTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
-                "standard" + (100 + (int)(Math.random() * 9900)) + "@gmail.com", rndLetter + "ecret1", rndLetter + "ecret1");
+    public void passContainsUpperCaseLetterTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
+                "standard" + (100 + (int) (Math.random() * 9900)) + "@gmail.com", rndLetter + "ecret1", rndLetter + "ecret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Slaptažodyje negali būti didžiųjų raidžių.");
     }
 
     @Test
-    public void email5CharsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void email5CharsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(1).toLowerCase() + "@b.c", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
 
     }
 
     @Test
-    public void email6CharsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void email6CharsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(2).toLowerCase() + "@b.c", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.xpath("//*[@id=\"main-container\"]/div[2]/h1/b")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Jūs sėkmingai prisiregistravote!");
     }
 
     @Test
-    public void email254CharsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void email254CharsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(118) + generateRndNumbs(118) + "@exampledomain.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.xpath("//*[@id=\"main-container\"]/div[2]/h1/b")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "Jūs sėkmingai prisiregistravote!");
     }
 
     @Test
-    public void email255CharsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void email255CharsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(118) + generateRndNumbs(119) + "@exampledomain.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailNumbsOnlyTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)), "" + generateRndNumbs(8), "secret1", "secret1");
+    public void emailNumbsOnlyTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)), "" + generateRndNumbs(8), "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailLettersOnlyTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailLettersOnlyTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 "" + generateRndLetters(8).toLowerCase(), "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailAtSymbolOnlyTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)), "@", "secret1", "secret1");
+    public void emailAtSymbolOnlyTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)), "@", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailMultipleAtSymbolsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailMultipleAtSymbolsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(8).toLowerCase() + "@@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailLocalAtSymbolOnlyTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailLocalAtSymbolOnlyTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(8).toLowerCase() + "@", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailDomainAtSymbolOnlyTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)), "@gmail.com", "secret1", "secret1");
+    public void emailDomainAtSymbolOnlyTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)), "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailDomainWithSubdomainTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailDomainWithSubdomainTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(8).toLowerCase() + "@mail.example.com", "secret1", "secret1");
         String actual = driver.findElement(By.xpath("//*[@id=\"main-container\"]/div[2]/h1/b")).getText();
         Assert.assertEquals(actual, "Jūs sėkmingai prisiregistravote!");
     }
 
     @Test
-    public void emailIPAddressDomainTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailIPAddressDomainTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(8).toLowerCase() + "@123.456.789.123", "secret1", "secret1");
         String actual = driver.findElement(By.xpath("//*[@id=\"main-container\"]/div[2]/h1/b")).getText();
         Assert.assertEquals(actual, "Jūs sėkmingai prisiregistravote!");
     }
 
     @Test
-    public void emailStartsWithPeriodTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailStartsWithPeriodTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 "." + generateRndLetters(8).toLowerCase() + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailEndsWithPeriodTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailEndsWithPeriodTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(8).toLowerCase() + "@gmail.com.", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailDomainContainingCommaTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailDomainContainingCommaTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(8).toLowerCase() + "@gmail,com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void email2ConsecutivePeriodsTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void email2ConsecutivePeriodsTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(8).toLowerCase() + "@gmail..com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailLocalSpecialCharTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailLocalSpecialCharTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(8).toLowerCase() + generateRndSpecialChars(1) + "@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailSpecialCharAfterAtSymbolTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailSpecialCharAfterAtSymbolTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 generateRndLetters(8).toLowerCase() + "@" + generateRndSpecialChars(1) + "gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailQuotedLocalTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)),
+    public void emailQuotedLocalTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)),
                 "\"" + generateRndLetters(8).toLowerCase() + "\"@gmail.com", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
     }
 
     @Test
-    public void emailInternationalizedTest () {
-        fillRegForm("standard" + (100 + (int)(Math.random() * 9900)), "ユーザー@例え.テスト", "secret1", "secret1");
+    public void emailInternationalizedTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)), "ユーザー@例え.テスト", "secret1", "secret1");
         String actual = "";
-        try{
+        try {
             actual = driver.findElement(By.className("field-validation-error")).getText();
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         Assert.assertEquals(actual, "El. pašto adresas nėra tinkamas.");
+    }
+
+    @Test
+    public void existingEmailTest() {
+        fillRegForm("standard" + (100 + (int) (Math.random() * 9900)), "standard@gmail.com", "secret1", "secret1");
+        String actual = "";
+        try {
+            actual = driver.findElement(By.className("field-validation-error")).getText();
+        } catch (Exception e) {
+        }
+        Assert.assertEquals(actual, "Toks el. pašto adresas jau įregistruotas.");
     }
 }

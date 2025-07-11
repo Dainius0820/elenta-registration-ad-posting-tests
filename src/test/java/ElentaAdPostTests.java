@@ -38,7 +38,7 @@ public class ElentaAdPostTests {
         String symbols = "\"#$%&'()*:;<=>?[\\]^_`{|}~";
         String text = "";
         for (int i = 0; i < length; i++) {
-            text += symbols.charAt((int) (Math.random()*symbols.length()));
+            text += symbols.charAt((int) (Math.random() * symbols.length()));
         }
         return text;
     }
@@ -89,7 +89,8 @@ public class ElentaAdPostTests {
         } catch (Exception e) {
             try {
                 wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("fileupload-progress")));
-            }catch (Exception ex){}
+            } catch (Exception ex) {
+            }
         }
     }
 
@@ -219,7 +220,7 @@ public class ElentaAdPostTests {
     }
 
     @Test
-    public void titleContainingSpecialCharTest () {
+    public void titleContainingSpecialCharTest() {
         fillAdForm("Audi RS3" + generateRndSpecialChars(1), "Selling this beauty, because my neighbors can’t handle the noise", "25000",
                 "Vilnius", "+37061111111", "standard@gmail.com");
         WebElement error = driver.findElement(By.id("te"));
@@ -435,7 +436,7 @@ public class ElentaAdPostTests {
             Thread.sleep(200);
             driver.switchTo().alert().accept();
             Assert.fail("An alert box popped up");
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
             String notExpected = "display:none";
             String actual = driver.findElement(By.id("pe")).getDomAttribute("style");
             Assert.assertNotEquals(actual, notExpected);
@@ -458,7 +459,7 @@ public class ElentaAdPostTests {
             Thread.sleep(200);
             driver.switchTo().alert().accept();
             Assert.fail("An alert box popped up");
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
             String notExpected = "display:none";
             String actual = driver.findElement(By.id("pe")).getDomAttribute("style");
             Assert.assertNotEquals(actual, notExpected);
@@ -489,7 +490,7 @@ public class ElentaAdPostTests {
             Thread.sleep(200);
             driver.switchTo().alert().accept();
             Assert.fail("An alert box popped up");
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
             String notExpected = "display:none";
             String actual = driver.findElement(By.id("pe")).getDomAttribute("style");
             Assert.assertNotEquals(actual, notExpected);
@@ -504,7 +505,7 @@ public class ElentaAdPostTests {
             Thread.sleep(200);
             driver.switchTo().alert().accept();
             Assert.fail("An alert box popped up");
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
             String notExpected = "display:none";
             String actual = driver.findElement(By.id("pe")).getDomAttribute("style");
             Assert.assertNotEquals(actual, notExpected);
@@ -686,7 +687,7 @@ public class ElentaAdPostTests {
         try {
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"photo-1\"]/div/img")));
             Assert.assertTrue(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         completeAdAndDelete();
@@ -717,7 +718,7 @@ public class ElentaAdPostTests {
         try {
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"photo-1\"]/div/img")));
             Assert.assertTrue(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         completeAdAndDelete();
@@ -730,7 +731,7 @@ public class ElentaAdPostTests {
         try {
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"photo-1\"]/div/img")));
             Assert.assertTrue(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         completeAdAndDelete();
@@ -743,7 +744,7 @@ public class ElentaAdPostTests {
         try {
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"photo-1\"]/div/img")));
             Assert.assertTrue(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         completeAdAndDelete();
@@ -788,7 +789,7 @@ public class ElentaAdPostTests {
         try {
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"photo-1\"]/div/img")));
             Assert.assertTrue(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         completeAdAndDelete();
@@ -811,7 +812,7 @@ public class ElentaAdPostTests {
         try {
             wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//*[@id=\"photo-8\"]")));
             Assert.assertTrue(true);
-        }catch (Exception e){
+        } catch (Exception e) {
             Assert.fail();
         }
         completeAdAndDelete();
@@ -821,7 +822,7 @@ public class ElentaAdPostTests {
     public void photos9Test() {
         submitAdForm();
         uploadImages(driver, "audi_rs3.jpg", "audi_rs3_5mb.jpg", "audi_rs3.gif", "audi_rs3.png",
-                "audi_rs3.bmp", "audi_rs3_1mb.jpg", "audi_rs3_2mb.jpg", "audi_rs3_3mb.jpg","audi_rs3_4mb.jpg");
+                "audi_rs3.bmp", "audi_rs3_1mb.jpg", "audi_rs3_2mb.jpg", "audi_rs3_3mb.jpg", "audi_rs3_4mb.jpg");
         WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fileupload-message")));
         Assert.assertTrue(error.isDisplayed(), "Expected the \"Negalima įkelti daugiau nei 8 nuotraukas\" error to be shown");
         completeAdAndDelete();
