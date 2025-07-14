@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -835,5 +836,10 @@ public class ElentaAdPostTests {
         WebElement error = driver.findElement(By.id("fileupload-message"));
         Assert.assertTrue(error.isDisplayed(), "Expected the \"Negalima įkelti daugiau nei 1 tos pačios nuotraukos kopiją\" error to be shown");
         completeAdAndDelete();
+    }
+
+    @AfterClass
+    public void tearDown() {
+        driver.quit();
     }
 }
